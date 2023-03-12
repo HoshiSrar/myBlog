@@ -3,6 +3,7 @@ package com.djt.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.djt.domain.ResponseResult;
 import com.djt.domain.entity.Link;
+import com.djt.domain.vo.PageVo;
 
 
 /**
@@ -14,4 +15,8 @@ import com.djt.domain.entity.Link;
 public interface LinkService extends IService<Link> {
     /**获取所有友链信息*/
     ResponseResult getAllLink();
+
+    PageVo selectLinkPage(Link link, Integer pageNum, Integer pageSize);
+
+    void deleteLinkById(Long id);
 }

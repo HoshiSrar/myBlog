@@ -3,6 +3,7 @@ package com.djt.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.djt.constants.SystemConstants;
@@ -88,5 +89,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         pageVo.setTotal(page.getTotal());
 
         return pageVo;
+    }
+
+    @Override
+    public void removeCategoryById(Long id) {
+        LambdaUpdateWrapper<Category> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(Category::getDelFlag,SystemConstants.CATEGORY_STATUS_DRAFT);
+        updateWrapper.eq(Category::getId,id);
+        update(updateWrapper);
     }
 }

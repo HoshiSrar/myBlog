@@ -12,10 +12,7 @@ import com.djt.service.CategoryService;
 import com.djt.utils.BeanCopyUtils;
 import com.djt.utils.WebUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +39,27 @@ public class CategoryController {
         PageVo pageVo = categoryService.selectCategoryPage(category,pageNum,pageSize);
 
     return ResponseResult.okResult(pageVo);
+    }
+    @PostMapping
+    public ResponseResult add(@RequestBody Category category){
+        categoryService.save(category);
+        return ResponseResult.okResult();
+    }
+    //根据id查询分类
+    @GetMapping("{id}")
+    public ResponseResult getCategoryInfo(@PathVariable("id") Long id){
+        Category category = categoryService.getById(id);
+        return ResponseResult.okResult(category);
+    }
+    @PutMapping
+    public ResponseResult editCategoryInfo(@RequestBody Category category){
+        categoryService.save(category);
+        return ResponseResult.okResult();
+    }
+    @DeleteMapping("{id}")
+    public ResponseResult removeCategory(@PathVariable("id") Long id){
+        categoryService.removeCategoryById(id);
+        return ResponseResult.okResult();
     }
 
 
