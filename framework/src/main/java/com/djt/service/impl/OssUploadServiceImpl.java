@@ -89,8 +89,8 @@ public class OssUploadServiceImpl implements UploadService {
                 Response response = uploadManager.put(inputStream,key,upToken,null, null);
                 //解析上传成功的结果
                 DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-                System.out.println(putRet.key);
-                System.out.println(putRet.hash);
+                System.out.println("这是上传结果的key："+putRet.key);
+                System.out.println("这是上传结果的hash："+putRet.hash);
                 return "http://rr4li3mz7.bkt.clouddn.com/"+key;
             } catch (QiniuException ex) {
                 Response r = ex.response;

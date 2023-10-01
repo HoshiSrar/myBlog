@@ -1,9 +1,13 @@
 package com.djt.utils;
 
 import com.djt.domain.entity.LoginUser;
+import jdk.nashorn.internal.runtime.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
+@Slf4j
 public class SecurityUtils
 {
 
@@ -12,7 +16,12 @@ public class SecurityUtils
      **/
     public static LoginUser getLoginUser()
     {
-        return (LoginUser) getAuthentication().getPrincipal();
+        log.info("开始获取用户:");
+        //次authentication为null
+        Authentication authentication = getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        log.info("获取用户:"+loginUser);
+        return loginUser;
     }
 
     /**

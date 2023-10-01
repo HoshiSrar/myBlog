@@ -16,9 +16,9 @@ public class RoleController {
     RoleService roleService;
     @GetMapping("/list")
     public ResponseResult listAllRole(Role role, Integer pageNum, Integer pageSize){
-
         return roleService.selectRolePage(role,pageNum,pageSize);
     }
+
     @PutMapping("changeStatus")
     public ResponseResult changeStatus(@RequestBody ChangeRoleStatusDto roleStatusDto){
         roleService.changeStatus(roleStatusDto);

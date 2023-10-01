@@ -65,7 +65,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(token1);
 
 
-        logger.info("封装成 authentication的token信息："+token1);
+//        logger.info("封装成 authentication的token信息："+token1);
         filterChain.doFilter(request,response);
     }
 }

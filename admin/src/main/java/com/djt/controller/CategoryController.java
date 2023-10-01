@@ -2,6 +2,7 @@ package com.djt.controller;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.djt.domain.ResponseResult;
 import com.djt.domain.entity.Category;
 import com.djt.domain.vo.CategoryVo;
@@ -16,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
-
-import static org.assertj.core.util.Lists.list;
 
 @RestController
 @RequestMapping("content/category")
@@ -53,6 +51,8 @@ public class CategoryController {
     }
     @PutMapping
     public ResponseResult editCategoryInfo(@RequestBody Category category){
+//        LambdaUpdateWrapper updateWrapper = new LambdaUpdateWrapper<>();
+//        updateWrapper.
         categoryService.save(category);
         return ResponseResult.okResult();
     }

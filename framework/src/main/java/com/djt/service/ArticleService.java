@@ -28,4 +28,6 @@ public interface ArticleService extends IService<Article> {
     ArticleVo getInfo(Long id);
 
     void removeById(Long id);
+
+    void edit(ArticleDto article);
 }

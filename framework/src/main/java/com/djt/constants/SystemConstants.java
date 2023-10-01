@@ -60,7 +60,7 @@ public class SystemConstants
     /**
      * 管理员
      */
-    public static final String ADMIN = "1";
+    public static final char ADMIN = 1;
     /**
      * 普通用户
      */

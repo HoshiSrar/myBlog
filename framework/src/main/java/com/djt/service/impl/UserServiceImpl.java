@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.djt.domain.ResponseResult;
+import com.djt.domain.dto.ChangeUserStatusDto;
+import com.djt.domain.entity.Role;
 import com.djt.domain.entity.User;
 import com.djt.domain.entity.UserRole;
 import com.djt.domain.vo.PageVo;
@@ -21,6 +23,7 @@ import com.djt.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -152,6 +155,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             insertUserRole(user);
         }
         return ResponseResult.okResult();
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        // 删除用户与角色关联
+        LambdaQueryWrapper<UserRole> userRoleUpdateWrapper = new LambdaQueryWrapper<>();
+        userRoleUpdateWrapper.eq(UserRole::getUserId,user.getId());
+        userRoleService.remove(userRoleUpdateWrapper);
+
+        // 新增用户与角色管理
+        insertUserRole(user);
+        // 更新用户信息
+        updateById(user);
+    }
+
+    /**
+     * 改变用户状态
+     *
+     * @param userStatusDto
+     */
+    @Override
+    public void changeStatus(ChangeUserStatusDto userStatusDto) {
+        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper();
+        updateWrapper.eq(User::getId,userStatusDto.getUserId());
+        updateWrapper.set(User::getStatus,userStatusDto.getStatus());
+        update(updateWrapper);
     }
 
 

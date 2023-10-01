@@ -10,11 +10,8 @@ import org.springframework.data.redis.serializer.SerializationException;
 import com.alibaba.fastjson.parser.ParserConfig;
 import org.springframework.util.Assert;
 import java.nio.charset.Charset;
-
 /**
  * Redis使用FastJson序列化
- * 
- * @author sg
  */
 public class FastJsonRedisSerializer<T> implements RedisSerializer<T>
 {

@@ -1,7 +1,14 @@
-com\djt\BlogAdminApplication.class
-com\djt\controller\TagController.class
+com\djt\controller\ArticleController.class
+com\djt\controller\RoleController.class
 com\djt\config\SecurityConfiguration.class
 com\djt\service\impl\LoginServiceImpl.class
 com\djt\service\LoginService.class
+com\djt\controller\UserController.class
 com\djt\filiter\JwtAuthenticationTokenFilter.class
 com\djt\controller\LoginController.class
+com\djt\BlogAdminApplication.class
+com\djt\controller\LinkController.class
+com\djt\controller\TagController.class
+com\djt\controller\CategoryController.class
+com\djt\controller\MenuController.class
+com\djt\controller\UploadController.class

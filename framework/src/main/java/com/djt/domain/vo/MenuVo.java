@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_menu")
+@TableName("t_sys_menu")
 public class MenuVo {
     //菜单ID@TableId
     private Long id;

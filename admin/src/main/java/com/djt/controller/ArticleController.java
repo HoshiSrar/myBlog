@@ -40,11 +40,16 @@ public class ArticleController {
     }
     @DeleteMapping("{id}")
     public ResponseResult delete(@PathVariable(value = "id") Long id){
-        //修改文章
+        //删除文章
         articleService.removeById(id);
         return ResponseResult.okResult();
     }
-
+    @PutMapping
+    public ResponseResult edit(@RequestBody ArticleDto article){
+        //更新文章
+        articleService.edit(article);
+        return ResponseResult.okResult();
+    }
 
 
 

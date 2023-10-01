@@ -9,12 +9,14 @@ import com.djt.domain.entity.User;
 import com.djt.mapper.MenuMapper;
 import com.djt.mapper.UserMapper;
 
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 /**
@@ -33,12 +35,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         wrapper.eq(User::getUserName,username);
         User user = userMapper.selectOne(wrapper);
         //判断是否查询用户，没有抛出异常
-        if(Objects.isNull(user)) throw new RuntimeException("用户不存在");
+        if(Objects.isNull(user)){
+            throw new AuthenticationServiceException("用户名或密码错误");
+        }
         //封装用户信息并返回
         //如果是后台用户才需要查询权限封装
-        if(user .getType().equals(SystemConstants.ADMIN)) {
+        if(user.getType().equals(String.valueOf(SystemConstants.ADMIN))) {
             List<String> permsByID = menuMapper.getSelectPermsByID(user.getId());
-            return new LoginUser(user,permsByID);
+            LoginUser loginUser = new LoginUser(user, new ArrayList<>(permsByID));
+            return loginUser;
         }
         return new LoginUser(user,null);
     }

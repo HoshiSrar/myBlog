@@ -6,10 +6,13 @@ import com.djt.domain.entity.User;
 import com.djt.enums.AppHttpCodeEnum;
 import com.djt.exception.SystemException;
 import com.djt.service.UserService;
+import com.djt.utils.WebUtils;
+import org.apache.http.HttpResponse;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 @RestController
@@ -21,6 +24,7 @@ public class UserController {
 
     @GetMapping("/userInfo")
     public ResponseResult getUserInfo(){
+//        WebUtils.renderString(response,"这里是获取用户信息");
         return service.getUserInfo();
     }
     @PutMapping("/userInfo")

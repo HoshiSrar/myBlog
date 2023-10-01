@@ -1,6 +1,7 @@
 package com.djt.domain.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,11 +15,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sg_article_tag")
+@TableName("t_article_tag")
 public class ArticleTag  {
-    //文章id@TableId
+    //文章id
+    @TableId
     private Long articleId;
-    //标签id@TableId
+    //标签id
+    //@TableId
     private Long tagId;
 
 

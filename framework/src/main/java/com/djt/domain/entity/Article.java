@@ -22,7 +22,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sg_article")
+@TableName("t_article")
 @Accessors(chain = true)//使添加的set方法返回当前对象本身
 public class Article {
     @TableId

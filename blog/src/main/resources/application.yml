@@ -13,7 +13,7 @@ spring:
     username: 568541648@qq.com
     password: nykrgvozkppmbbfa
   datasource:
-    url: jdbc:mysql://localhost:3306/sg_blog?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/blog?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       username: root
@@ -38,9 +38,10 @@ spring:
 
 #      mybatis-plus 配置
 mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   # 日志
+
   global-config:
     db-config:
       logic-delete-field: delFlag
@@ -49,7 +50,7 @@ mybatis-plus:
       id-type: auto
       table-prefix: com.djt.mapper
 #      表可以设置   前缀
-#      mybatis-plus结束
+#      mybatis-plus结束9+
 server:
   port: 7777
 

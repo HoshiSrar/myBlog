@@ -19,7 +19,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sg_tag")
+@TableName("t_tag")
 public class Tag {
     @TableId
     private Long id;

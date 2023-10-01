@@ -13,6 +13,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
 
     @Override
     public void deleteRoleMenuByRoleId(Long id) {
+
         LambdaQueryWrapper<RoleMenu> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(RoleMenu::getRoleId,id);
         remove(queryWrapper);

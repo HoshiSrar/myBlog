@@ -24,7 +24,6 @@ public class BlogLoginServiceImpl implements BlogLoginService {
     @Resource
     private AuthenticationManager authenticationManager;
     @Resource
-
     private RedisCache redisCache;
 
     /**博客登录
@@ -37,7 +36,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         // 用创建的bean身份管理器，使用重写的  loadUserByUsername    验证token内信息
         // 返回验证后的完整用户信息包装(使用token来解码封装用户信息，并设置权限)
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-//  ——————————修改结束，容器继续执行，—————下面为个人操作———————————
+        //  ——————————修改结束，容器继续执行，—————下面为个人操作———————————
 
         //判断是否认证通过
         if(Objects.isNull(authenticate)) throw new RuntimeException("用户名或密码错误");

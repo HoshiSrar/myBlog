@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_role_menu")
+@TableName("t_sys_role_menu")
 public class RoleMenu {
     /** 角色ID */
     private Long roleId;

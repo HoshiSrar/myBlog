@@ -4,6 +4,7 @@ import java.util.Date;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_user")
+@TableName("t_sys_user")
 public class User  {
     //主键@TableId
     private Long id;
@@ -44,12 +45,16 @@ public class User  {
     //头像
     private String avatar;
     //创建人的用户id
+    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
     //创建时间
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     //更新人
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
     //更新时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
     //删除标志（0代表未删除，1代表已删除）
     private Integer delFlag;

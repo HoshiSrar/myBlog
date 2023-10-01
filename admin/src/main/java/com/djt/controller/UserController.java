@@ -1,6 +1,8 @@
 package com.djt.controller;
 
 import com.djt.domain.ResponseResult;
+import com.djt.domain.dto.ChangeRoleStatusDto;
+import com.djt.domain.dto.ChangeUserStatusDto;
 import com.djt.domain.entity.Role;
 import com.djt.domain.entity.User;
 import com.djt.domain.vo.UserInfoAndRoleIdsVo;
@@ -80,7 +82,12 @@ public class UserController {
     //保存更新的用户信息
     @PutMapping
     public ResponseResult edit (@RequestBody User user){
-        userService.save(user);
+        userService.updateUser(user);
+        return ResponseResult.okResult();
+    }
+    @PutMapping("changeStatus")
+    public ResponseResult changeStatus(@RequestBody ChangeUserStatusDto userStatusDto){
+        userService.changeStatus(userStatusDto);
         return ResponseResult.okResult();
     }
 }

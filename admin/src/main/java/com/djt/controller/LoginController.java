@@ -1,5 +1,7 @@
 package com.djt.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.djt.annotation.SystemLog;
 import com.djt.domain.ResponseResult;
 import com.djt.domain.entity.LoginUser;
 import com.djt.domain.entity.Menu;
@@ -14,6 +16,7 @@ import com.djt.service.MenuService;
 import com.djt.service.RoleService;
 import com.djt.utils.BeanCopyUtils;
 import com.djt.utils.SecurityUtils;
+import com.djt.utils.WebUtils;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -36,11 +40,13 @@ public class LoginController {
     @Resource
     private LoginService LoginService;
     @PostMapping("/user/login")
-    public ResponseResult Login(@RequestBody User user){
-        if(!Strings.hasText(user.getUserName()))
+    public ResponseResult Login(HttpServletResponse response,@RequestBody User user){
+        if(!Strings.hasText(user.getUserName())) {
             //提示需要用户名
-            throw new SystemException(AppHttpCodeEnum.NEED_LOGIN);
-        return LoginService.login(user);
+//            WebUtils.renderString(response, JSON.toJSONString(AppHttpCodeEnum.USERNAME_NOT_NULL));
+            throw new SystemException(AppHttpCodeEnum.USERNAME_NOT_NULL);
+        }
+        return LoginService.login(user,response);
     }
 
     @GetMapping("getInfo")
@@ -59,6 +65,7 @@ public class LoginController {
         return ResponseResult.okResult(adminUserInfo);
     }
     @GetMapping("/getRouters")
+    @SystemLog(BusinessName="获取")
     public ResponseResult<RoutsVo> getRouters(){
 
         //获取用户信息

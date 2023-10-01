@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_user_role")
+@TableName("t_sys_user_role")
 public class UserRole {
 
     /** 用户ID */

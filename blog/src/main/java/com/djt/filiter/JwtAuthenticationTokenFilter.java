@@ -6,9 +6,12 @@ import com.djt.domain.entity.LoginUser;
 import com.djt.enums.AppHttpCodeEnum;
 import com.djt.utils.JwtUtil;
 import com.djt.utils.RedisCache;
+import com.djt.utils.SecurityUtils;
 import com.djt.utils.WebUtils;
 import jdk.nashorn.internal.runtime.logging.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -20,7 +23,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 @Logger
@@ -33,9 +39,24 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException{
+
         //获取请求头中的token
         String token = request.getHeader("token");
+        logger.info("token:"+token);
+        List<String> cookie1=null;
+        SecurityContext Context=null;
+        Authentication UntilContext=null;
+
+        try {
+            cookie1= Arrays.stream(request.getCookies()).map(cookie -> cookie.getName()+":"+cookie.getValue()).collect(Collectors.toList());
+            Context = SecurityContextHolder.getContext();
+            UntilContext = SecurityUtils.getAuthentication();
+        }catch (Exception ignored){
+            logger.info("Cookie:"+ cookie1);
+            logger.info("自己获取："+Context);
+            logger.info("工具包获取："+UntilContext);
+        }
         if(!StringUtils.hasText(token)) {
             //说明该接口尚未登录，直接放行
             filterChain.doFilter(request, response) ;
@@ -65,7 +86,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(token1);
 
 
-        logger.info("封装成 authentication的token信息："+token1);
+
+
+//        logger.info("封装成 authentication的token信息："+token1);
         filterChain.doFilter(request,response);
     }
 }

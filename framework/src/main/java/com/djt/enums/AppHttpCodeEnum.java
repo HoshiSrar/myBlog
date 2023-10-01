@@ -14,7 +14,7 @@ public enum AppHttpCodeEnum {
     NICKNAME_EXIST(512, "昵称已存在"),
     PHONENUMBER_EXIST(502,"手机号已存在"), EMAIL_EXIST(503, "邮箱已存在"),
     REQUIRE_USERNAME(504, "必需填写用户名"),
-    USERNAME_NOT_NULL(508, "用户名不能为空"),
+    USERNAME_NOT_NULL(500, "用户名不能为空"),
     NICKNAME_NOT_NULL(509, "昵称不能为空"),
     EMAIL_NOT_NULL(510, "邮箱不能为空"),
     PASSWORD_NOT_NULL(511, "密码不能为空"),

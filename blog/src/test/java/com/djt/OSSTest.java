@@ -1,7 +1,6 @@
 package com.djt;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.djt.domain.entity.Article;
 import com.djt.mapper.ArticleMapper;
 import com.google.gson.Gson;
@@ -12,19 +11,13 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.junit.Test;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 import javax.annotation.Resource;
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.UnsupportedEncodingException;
 
 @SpringBootTest
 //@ConfigurationProperties(prefix = "oss")   //使用时需解开注解

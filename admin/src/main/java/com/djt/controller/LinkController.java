@@ -4,8 +4,6 @@ import com.djt.domain.ResponseResult;
 import com.djt.domain.entity.Link;
 import com.djt.domain.vo.PageVo;
 import com.djt.service.LinkService;
-import org.apache.http.protocol.ResponseServer;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,7 +31,7 @@ public class LinkController {
         Link link = linkService.getById(id);
         return ResponseResult.okResult(link);
     }
-    @PostMapping
+    @PutMapping
     public ResponseResult editLinkInfo(@RequestBody Link link){
         linkService.updateById(link);
     return ResponseResult.okResult();
@@ -43,5 +41,9 @@ public class LinkController {
         linkService.deleteLinkById(id);
         return ResponseResult.okResult();
     }
-
+    @PutMapping("/changeLinkStatus")
+    public ResponseResult changeLinkStatus(@RequestBody Link link){
+        linkService.updateById(link);
+        return ResponseResult.okResult();
+    }
 }

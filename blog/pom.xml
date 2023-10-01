@@ -23,11 +23,23 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
 <!--    邮件        -->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-starter-mail</artifactId>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-mail</artifactId>
+                <artifactId>spring-boot-test</artifactId>
+                <scope>test</scope>
             </dependency>
-
-
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
 </project>

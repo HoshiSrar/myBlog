@@ -2,6 +2,7 @@ package com.djt.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.djt.domain.ResponseResult;
+import com.djt.domain.dto.ChangeUserStatusDto;
 import com.djt.domain.entity.User;
 
 
@@ -28,4 +29,8 @@ public interface UserService extends IService<User> {
     boolean checkEmailUnique(User user);
 
     ResponseResult addUser(User user);
+
+    void updateUser(User user);
+
+    void changeStatus(ChangeUserStatusDto userStatusDto);
 }

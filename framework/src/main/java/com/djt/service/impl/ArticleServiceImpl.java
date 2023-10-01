@@ -22,12 +22,14 @@ import com.djt.utils.RedisCache;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.method.annotation.SessionAttributesHandler;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -83,7 +85,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      */
     @Override
     public ResponseResult articleList(Integer pageNum, Integer pageSize, Long categoryId){
-        QueryWrapper<Object> queryWrapper = new QueryWrapper<>();
 //       查询条件
         LambdaQueryWrapper<Article> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         //查询条件
@@ -101,9 +102,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 给article中空的 categoryName 赋值
         articles.stream()
                 .map(article -> article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()))
-                .map(article -> article.setViewCount(Long.valueOf(
-                        redisCache.getCacheMapValue(SystemConstants.REDIS_VIEW_KEY,
-                                article.getId().toString()).toString()
+                .map(article -> article.setViewCount(Long.valueOf(redisCache
+                        .getCacheMapValue(SystemConstants.REDIS_VIEW_KEY, article.getId().toString()).toString()
                 )))
                 .collect(Collectors.toList());
 
@@ -229,6 +229,27 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         updateWrapper.eq(Article::getId,id);
         updateWrapper.set(Article::getDelFlag,SystemConstants.ARTICLE_STATUS_DELETE);
         update(updateWrapper);
+    }
+
+    /**
+     * 更新文章
+     * @param articleDto
+     */
+    @Override
+    public void edit(ArticleDto articleDto) {
+        Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
+        //更新博客信息
+        updateById(article);
+        //删除原有的 标签和博客的关联
+        LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        articleTagLambdaQueryWrapper.eq(ArticleTag::getArticleId,article.getId());
+        articleTagService.remove(articleTagLambdaQueryWrapper);
+        //添加新的博客和标签的关联信息
+        List<ArticleTag> articleTags = articleDto.getTags().stream()
+                .map(tagId -> new ArticleTag(articleDto.getId(), tagId))
+                .collect(Collectors.toList());
+        articleTagService.saveBatch(articleTags);
+
     }
 
 }

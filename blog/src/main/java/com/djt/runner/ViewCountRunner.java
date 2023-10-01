@@ -4,6 +4,7 @@ import com.djt.constants.SystemConstants;
 import com.djt.domain.entity.Article;
 import com.djt.mapper.ArticleMapper;
 import com.djt.utils.RedisCache;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,16 +14,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class ViewCountRunner implements CommandLineRunner {
     @Resource
     ArticleMapper articleMapper;
     @Resource
     RedisCache redisCache;
+
     @Override
     public void run(String... args) {
         //需求，将数据库中的阅读播放量放进redis中
         //1.查询博客形象 id viewCount
-
+        log.info("执行启动保存view");
         List<Article> articles = articleMapper.selectList(null);
         Map<String, Integer> viewCountMap = articles.stream()
                 //数据流中的值为article单个对象
@@ -32,6 +35,7 @@ public class ViewCountRunner implements CommandLineRunner {
 
         //4.存入redis中
         redisCache.setCacheMap(SystemConstants.REDIS_VIEW_KEY, viewCountMap);
+        log.info("存入完成");
 
     }
 }

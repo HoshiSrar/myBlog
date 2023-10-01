@@ -12,6 +12,7 @@ import com.djt.domain.entity.Article;
 import com.djt.domain.entity.Category;
 import com.djt.domain.vo.CategoryVo;
 import com.djt.domain.vo.PageVo;
+import com.djt.mapper.ArticleMapper;
 import com.djt.mapper.CategoryMapper;
 import com.djt.utils.BeanCopyUtils;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,8 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
     @Resource
     ArticleServiceImpl articleService;
+    @Resource
+    ArticleMapper articleMapper;
 
     @Override
     public ResponseResult getCategoryList() {
@@ -76,11 +79,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
         queryWrapper.like(StringUtils.hasText(category.getName()),Category::getName, category.getName());
         queryWrapper.eq(Objects.nonNull(category.getStatus()),Category::getStatus,category.getStatus());
-
         Page<Category> page = new Page();
         page.setCurrent(pageNum);
         page.setSize(pageSize);
-
+        page(page,queryWrapper);
         //Vo转换
         List<Category> categories = page.getRecords();
 

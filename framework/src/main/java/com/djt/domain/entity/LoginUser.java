@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -18,10 +20,13 @@ public class LoginUser implements UserDetails {
 
     private List<String> permission;
 
+
     @Override
 //    返回权限集合
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
+//        return permission.stream()
+//                .map(users::new)
+//                .collect(Collectors.toList());
         return null;
     }
 
@@ -54,5 +59,16 @@ public class LoginUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    class users implements GrantedAuthority{
+        String role;
+        public users(String role){
+            this.role=role;
+        }
+        @Override
+        public String getAuthority() {
+            return role;
+        }
     }
 }

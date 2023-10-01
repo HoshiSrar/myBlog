@@ -2,6 +2,9 @@ package com.djt.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.djt.annotation.SystemLog;
+import com.djt.mapper.UserMapper;
+import com.djt.utils.JwtUtil;
+import com.djt.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,6 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**切面类
@@ -21,6 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Slf4j
 public class LogAspect {
+    @Resource
+    private RedisCache redisCache;
+
     //标识了SystemLog的方法都回打印日志
     @Pointcut("@annotation(com.djt.annotation.SystemLog)")
     public void pt(){
@@ -43,7 +50,7 @@ public class LogAspect {
         return proceed;//作为切面的返回值
     }
 
-    private void handleBefore(ProceedingJoinPoint joinPoint) {
+    private void handleBefore(ProceedingJoinPoint joinPoint) throws Exception {
         //TODO 正常该转为ServletRequestAttributes
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert requestAttributes != null;
@@ -64,6 +71,16 @@ public class LogAspect {
                                             ((MethodSignature) joinPoint.getSignature()).getMethod().getName());
         // 打印请求的 IP
         log.info("IP             : {}",request.getRemoteHost());
+        // 打印访问人名称
+        String nickName=null;
+        try{
+        String token = redisCache.getCacheObject("login:" + JwtUtil.parseJWT(request.getHeader("token")).getSubject()).toString();
+        token = token.split("nickName=",3)[1];
+        nickName = token.split(", pass",2)[0];
+        }catch (Exception e){
+            nickName="访问人读取失败";
+        }
+        log.info("userName       : {}", nickName);
         // 打印请求入参
         log.info("Request Args   : {}", JSON.toJSON( joinPoint.getArgs()) );
     }
